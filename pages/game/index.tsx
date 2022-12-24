@@ -1,13 +1,13 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import AnswerButton from "../../components/AnswerButton/AnswerButton";
+import { RootState } from "../../redux/store";
+import { increment, reset } from "../../redux/score";
 
 export default function GamePage() {
-  const [score, setScore] = useState(0);
-
-  function addPoint() {
-    setScore((prevScore) => prevScore + 1);
-  }
+  const score = useSelector((state: RootState) => state.counter.score);
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -18,9 +18,9 @@ export default function GamePage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <p>game page</p>
-      <AnswerButton name="yes" onClick={addPoint} />
-      <AnswerButton name="no" />
+      <p>score {score}</p>
+      <AnswerButton name="yes" onClick={() => dispatch(increment())} />
+      <AnswerButton name="no" onClick={() => dispatch(reset())} />
     </>
   );
 }
