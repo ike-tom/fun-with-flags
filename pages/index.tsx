@@ -19,11 +19,9 @@ const buttons = [
 ];
 
 export default function Home() {
- const [countries, setCountries] = useState([]);
+  const [countries, setCountries] = useState([]);
 
- 
-
- async function fetchCountries() {
+  async function fetchCountries() {
     const response = await fetch("https://restcountries.com/v3.1/all");
     const data = await response.json();
     setCountries(data);
@@ -32,10 +30,6 @@ export default function Home() {
   useEffect(() => {
     fetchCountries();
   }, []);
-
-  
-
-
 
   return (
     <>
