@@ -1,13 +1,42 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '../styles/Home.module.css'
-import Header from '../components/Header/Header'
-import SearchInput from '../components/SearchInput/SearchInput'
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
+import Button from "../components/Button/Button";
+import { useEffect, useState } from "react";
 
-
+const buttons = [
+  {
+    name: "play",
+    link: "game",
+  },
+  {
+    name: "learn",
+    link: "flagpedia",
+  },
+  {
+    name: "whaaaat",
+    link: "about",
+  },
+];
 
 export default function Home() {
+ const [countries, setCountries] = useState([]);
+
+ 
+
+ async function fetchCountries() {
+    const response = await fetch("https://restcountries.com/v3.1/all");
+    const data = await response.json();
+    setCountries(data);
+  }
+
+  useEffect(() => {
+    fetchCountries();
+  }, []);
+
+  
+
+
+
   return (
     <>
       <Head>
@@ -16,10 +45,12 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <Header/>
-        <SearchInput />
-      </main>
+
+      <div className={styles.buttonsWrapper}>
+        {buttons.map((button) => (
+          <Button key={button.name} name={button.name} link={button.link} />
+        ))}
+      </div>
     </>
-  )
+  );
 }
