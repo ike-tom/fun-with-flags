@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import AnswerButton from "../../components/AnswerButton/AnswerButton";
 import { RootState } from "../../redux/store";
 import { increment, reset } from "../../redux/score";
+import { addHighScore } from "../../redux/highscores";
 
 export default function GamePage() {
   const score = useSelector((state: RootState) => state.counter.score);
@@ -20,7 +21,12 @@ export default function GamePage() {
 
       <p>score {score}</p>
       <AnswerButton name="yes" onClick={() => dispatch(increment())} />
-      <AnswerButton name="no" onClick={() => dispatch(reset())} />
+      <AnswerButton
+        name="no"
+        onClick={() =>
+          dispatch(addHighScore({ name: "sdasdsa", score: score }))
+        }
+      />
     </>
   );
 }
