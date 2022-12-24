@@ -1,17 +1,73 @@
-.header__wrapper{
-    width: 100%;
-    height: 80px;
-    background-color: red;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    .header{
-        font-family: 'Nunito Sans';
-        font-style: normal;
-        font-weight: 800;
-        font-size: 14px;
-        line-height: 20px;
-        color: #111517;
-        margin: 0 0 0 16px;
-    }
+.header__wrapper {
+  width: 100%;
+  height: 80px;
+
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  background: #2b3844;
+  padding: 20px;
+  justify-content: space-between;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.0562443);
+  .header {
+    text-transform: uppercase;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 20px;
+    color: #fff;
+  }
+}
+
+.toggleSwitch {
+  position: relative;
+  width: 100px;
+  height: 40px;
+}
+
+.label {
+  position: absolute;
+  width: 100%;
+  height: 40px;
+  background-color: black;
+  border-radius: 40px;
+  cursor: pointer;
+}
+
+.input {
+  position: absolute;
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+  transition: 0.3s;
+}
+
+input:checked ~ .slider {
+  background-color: #87ceeb;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 8px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  box-shadow: inset 12px -4px 0px 0px white;
+  background-color: black;
+  transition: 0.3s;
+}
+
+input:checked ~ .slider::before {
+  transform: translate(55px, -50%);
+
+  background-color: #fce570;
+  box-shadow: none;
 }
