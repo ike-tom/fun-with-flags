@@ -19,18 +19,6 @@ const buttons = [
 ];
 
 export default function Home() {
-  const [countries, setCountries] = useState([]);
-
-  async function fetchCountries() {
-    const response = await fetch("https://restcountries.com/v3.1/all");
-    const data = await response.json();
-    setCountries(data);
-  }
-
-  useEffect(() => {
-    fetchCountries();
-  }, []);
-
   return (
     <>
       <Head>
