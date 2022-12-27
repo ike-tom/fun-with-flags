@@ -1,0 +1,17 @@
+.scoreWrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  row-gap: 20px;
+  .score {
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+  }
+  .userNameInput {
+    width: 100%;
+    height: 60px;
+    font-size: 20px;
+  }
+}
