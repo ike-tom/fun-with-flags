@@ -1,0 +1,14 @@
+.answerWrapper {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  margin-top: 30px;
+
+  .countryQuizCardWrapper {
+    min-height: 350px;
+  }
+  .answerButtonsWrapper {
+    display: flex;
+  }
+}

@@ -1,14 +1,50 @@
 import Head from "next/head";
 import { useSelector, useDispatch } from "react-redux";
-
 import AnswerButton from "../../components/AnswerButton/AnswerButton";
 import { RootState } from "../../redux/store";
-import { increment, reset } from "../../redux/score";
-import { addHighScore } from "../../redux/highscores";
+import { increment } from "../../redux/score";
+import { useEffect, useState } from "react";
+import CountryQuizCard from "../../components/CountryQuizCard/CountryQuizCard";
+import axios from "axios";
+import { CountryProps } from "../../interfaces/Country.interface";
+import { useRouter } from "next/router";
+import styles from "../../styles/GamePage.module.scss";
 
 export default function GamePage() {
   const score = useSelector((state: RootState) => state.counter.score);
   const dispatch = useDispatch();
+  const [questionNumber, setQuestionNumber] = useState(0);
+  const [data, setData] = useState<CountryProps[]>([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await axios.get<CountryProps[]>(
+        "https://restcountries.com/v3.1/all?fields=name,flags"
+      );
+      const randomCountries = pickCountries(response.data);
+      setData(randomCountries);
+    }
+
+    fetchData();
+  }, []);
+
+  const addQuestionNumber = () => {
+    setQuestionNumber((prev) => prev + 1);
+  };
+
+  if (questionNumber === 9) {
+    router.push("/game_over");
+  }
+
+  const addQuestionNumberAndAddPoint = () => {
+    dispatch(increment());
+    addQuestionNumber();
+  };
+
+  if (!data) {
+    return <div>loading</div>;
+  }
 
   return (
     <>
@@ -18,15 +54,36 @@ export default function GamePage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <p>score {score}</p>
-      <AnswerButton name="yes" onClick={() => dispatch(increment())} />
-      <AnswerButton
-        name="no"
-        onClick={() =>
-          dispatch(addHighScore({ name: "sdasdsa", score: score }))
-        }
-      />
+      <div className={styles.answerWrapper}>
+        <div className={styles.countryQuizCardWrapper}>
+          <CountryQuizCard country={data[questionNumber]} />
+        </div>
+        {/* <p>score {score}</p> */}
+        <div className={styles.answerButtonsWrapper}>
+          <AnswerButton
+            name="no"
+            // onClick={() =>
+            //   dispatch(addHighScore({ name: "sdasdsa", score: score }))
+            // }
+            onClick={addQuestionNumber}
+          />
+          <AnswerButton name="yes" onClick={addQuestionNumberAndAddPoint} />
+        </div>
+      </div>
     </>
   );
+}
+
+function pickCountries(countries: CountryProps[]) {
+  const pickedCountries: CountryProps[] = [];
+
+  for (let i = 0; i < 10; i++) {
+    const index = Math.floor(Math.random() * countries.length);
+    const country = countries[index];
+
+    if (!pickedCountries.includes(country)) {
+      pickedCountries.push(country);
+    }
+  }
+  return pickedCountries;
 }
