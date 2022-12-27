@@ -9,7 +9,7 @@ export interface HighScore {
 const initialState: HighScore[] = [];
 
 export const highScoresSlice = createSlice({
-  name: "highScores",
+  name: "highScoresTable",
   initialState,
   reducers: {
     addHighScore(state, action: PayloadAction<HighScore>) {
